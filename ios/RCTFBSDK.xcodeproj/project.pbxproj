@@ -365,7 +365,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(HOME)/Documents/FacebookSDK",
+					"~/Documents/FacebookSDK",
 					"$(PROJECT_DIR)/../../../ios/Frameworks",
 					"$(PROJECT_DIR)/../../../ios/Pods",
 				);

@@ -25,7 +25,6 @@ const FBSDK = require('react-native-fbsdk');
 
 import React, {Component} from 'react';
 import {
-  Alert,
   AppRegistry,
   StyleSheet,
   Text,
@@ -43,26 +42,30 @@ class HelloFacebook extends Component {
     };
 
     this.state = {
-      shareLinkContent,
+      shareLinkContent: shareLinkContent,
     };
   }
 
-  async shareLinkWithShareDialog() {
-    const canShow = await ShareDialog.canShow(this.state.shareLinkContent);
-    if (canShow) {
-      try {
-        const {isCancelled, postId} = await ShareDialog.show(
-          this.state.shareLinkContent,
-        );
-        if (isCancelled) {
-          Alert.alert('Share cancelled');
-        } else {
-          Alert.alert('Share success with postId: ' + postId);
+  shareLinkWithShareDialog() {
+    var tmp = this;
+    ShareDialog.canShow(this.state.shareLinkContent)
+      .then(function(canShow) {
+        if (canShow) {
+          return ShareDialog.show(tmp.state.shareLinkContent);
         }
-      } catch (error) {
-        Alert.alert('Share fail with error: ' + error);
-      }
-    }
+      })
+      .then(
+        function(result) {
+          if (result.isCancelled) {
+            alert('Share cancelled');
+          } else {
+            alert('Share success with postId: ' + result.postId);
+          }
+        },
+        function(error) {
+          alert('Share fail with error: ' + error);
+        },
+      );
   }
 
   render() {
